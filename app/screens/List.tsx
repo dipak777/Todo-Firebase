@@ -16,10 +16,11 @@ import {
   onSnapshot,
   updateDoc,
 } from "firebase/firestore";
-import { FIRESTORE_DB } from "../../firebaseConfig";
+import { FIREBASE_AUTH, FIRESTORE_DB } from "../../firebaseConfig";
 import Details from "./Details";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Entypo } from "@expo/vector-icons";
+import { NavigationProp } from "@react-navigation/native";
 
 export interface Todo {
   title: string;
@@ -27,7 +28,11 @@ export interface Todo {
   id: string;
 }
 
-const List = ({ navigation }: any) => {
+interface RouterProps {
+  navigation: NavigationProp<any, any>;
+}
+
+const List = ({ navigation }: RouterProps) => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [todo, setTodo] = useState("");
 
@@ -106,6 +111,7 @@ const List = ({ navigation }: any) => {
           keyExtractor={(todo: Todo) => todo.id}
         />
       )}
+      <Button onPress={() => FIREBASE_AUTH.signOut()} title="Logout" />
     </View>
   );
 };
